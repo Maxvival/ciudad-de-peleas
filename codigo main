@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
     //IMagenes
     SDL_Texture *imagenes[4];
     SDL_Surface *surface0=IMG_Load("suelo.jpg");
-    SDL_Surface *surface1=IMG_Load("pared.jpg");
+    SDL_Surface *surface1=IMG_Load("pared.png");
     SDL_Surface *surface2=IMG_Load("tanque.png");
     SDL_Surface *surface3=IMG_Load("tanque.png");
 
@@ -92,33 +92,48 @@ int main(int argc, char *argv[]){
             }else if(evento.type==SDL_KEYDOWN){
                 int new1x=j1x;
                 int new1y=j1y;
-                int new2x=j1x;
+                int new2x=j2x;
                 int new2y=j2y;
                 switch (evento.key.keysym.sym){
                 case SDLK_w:
-                    new1x--;
-                    break;
-                case SDLK_a:
                     new1y--;
                     break;
-                case SDLK_s:
-                    new1x++;
+                case SDLK_a:
+                    new1x--;
                     break;
-                case SDLK_d:
+                case SDLK_s:
                     new1y++;
                     break;
+                case SDLK_d:
+                    new1x++;
+                    break;
                 case SDLK_UP:
-                    new2x--;
-                    break;
-                case SDLK_DOWN:
-                    new2x++;
-                    break;
-                case SDLK_LEFT:
                     new2y--;
                     break;
-                case SDLK_RIGHT:
+                case SDLK_DOWN:
                     new2y++;
                     break;
+                case SDLK_LEFT:
+                    new2x--;
+                    break;
+                case SDLK_RIGHT:
+                    new2x++;
+                    break;
+                }
+                // Validar límites
+                if (new1x >= 0 && new1x < filas && new1y >= 0 && new1y < columnas && mapa[new1x][new1y] == 0) {
+                    // Actualizar mapa
+                    mapa[j1x][j1y] = 0;  // borrar jugador antiguo
+                    mapa[new1x][new1y] = 2; // poner jugador nuevo
+                    j1x = new1x;
+                    j1y = new1y;
+                }
+
+                if (new2x >= 0 && new2x < filas && new2y >= 0 && new2y < columnas && mapa[new2x][new2y] == 0) {
+                    mapa[j2x][j2y] = 0;
+                    mapa[new2x][new2y] = 3;
+                    j2x = new2x;
+                    j2y = new2y;
                 }
             }
         }
