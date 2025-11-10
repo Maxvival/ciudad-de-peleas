@@ -36,13 +36,13 @@ int main(int argc, char *argv[]){
     }
     //Crear ventana
     SDL_Window *ventana=SDL_CreateWindow("Juego SDL",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,640,480,SDL_WINDOW_SHOWN);
-    if(ventana=NULL){
+    if(ventana==NULL){
         printf("Error al inicializar SDL_CreateWindow: %s\n",SDL_GetError);
         return EXIT_FAILURE;
     }   
     //Crear render
     SDL_Renderer *render=SDL_CreateRenderer(ventana,-1,SDL_RENDERER_ACCELERATED);
-    if(render=NULL){
+    if(render==NULL){
         printf("Error al inicializar SDL_CreateRenderer: %s\n",SDL_GetError);
         return EXIT_FAILURE;
     }
@@ -67,7 +67,10 @@ int main(int argc, char *argv[]){
     int mapa[filas][columnas];
     cargarmapa("mapaprueba.txt",mapa);
     //buscar al jugador
-    int j1x,j1y,j2x,j2y=0;
+    int j1x=0;
+    int j1y=0;
+    int j2x=0;
+    int j2y=0;
     for(int i=0;i<filas;i++){
         for(int j=0;j<columnas;j++){
             if(mapa[i][j]==2){
@@ -119,29 +122,30 @@ int main(int argc, char *argv[]){
                 }
             }
         }
-    }
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-    SDL_RenderClear(render);
-    //dibujar
-    for(int i=0;i<filas;i++){
-        for(int j=0;j<columnas;j++){
-            SDL_Rect destRect={i*tamaño,j*tamaño,tamaño,tamaño};
-            switch(mapa[i][j]){
-                case '0':
-                    SDL_RenderCopy(render,imagenes[0],NULL,&destRect);
-                    break;
-                case '1':
-                    SDL_RenderCopy(render,imagenes[1],NULL,&destRect);
-                    break;
-                case '2':
-                    SDL_RenderCopy(render,imagenes[2],NULL,&destRect);
-                    break;
-                case '3':
-                    SDL_RenderCopy(render,imagenes[3],NULL,&destRect);
-                    break;
+        SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+        SDL_RenderClear(render);
+        //dibujar
+        for(int i=0;i<filas;i++){
+            for(int j=0;j<columnas;j++){
+                SDL_Rect destRect={i*tamaño,j*tamaño,tamaño,tamaño};
+                switch(mapa[i][j]){
+                    case 0:
+                        SDL_RenderCopy(render,imagenes[0],NULL,&destRect);
+                        break;
+                    case 1:
+                        SDL_RenderCopy(render,imagenes[1],NULL,&destRect);
+                        break;
+                    case 2:
+                        SDL_RenderCopy(render,imagenes[2],NULL,&destRect);
+                        break;
+                    case 3:
+                        SDL_RenderCopy(render,imagenes[3],NULL,&destRect);
+                        break;
+                    }
             }
         }
     }
+    
     SDL_RenderPresent(render);
     SDL_DestroyWindow(ventana);
     IMG_Quit();
