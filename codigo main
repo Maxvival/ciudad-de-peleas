@@ -141,12 +141,13 @@ int main(int argc, char *argv[]){
                     case 3:
                         SDL_RenderCopy(render,imagenes[3],NULL,&destRect);
                         break;
-                    }
+                }
             }
         }
+        SDL_RenderPresent(render);
     }
     
-    SDL_RenderPresent(render);
+    
     SDL_DestroyWindow(ventana);
     IMG_Quit();
     SDL_Quit();
